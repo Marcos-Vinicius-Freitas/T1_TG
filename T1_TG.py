@@ -1,21 +1,26 @@
 import csv
+
 def ler_csv(caminho_arquivo):
-    #Lê o arquivo CSV e o interpreta como uma lista de listas
     with open(caminho_arquivo, newline="", encoding="utf-8") as arquivo:
         municipios = csv.reader(arquivo)
-        #Cria uma lista das linhas de municipios.csv, ignorando linhas vazias
-        linhas = [linha for linha in municipios if linha and any(c.strip() for c in linha)]
+        linhas = []
+        for linha in municipios:
+            if linha and any(celula.strip() for celula in linha):
+                linhas.append(linha)      
 
     cabecalho = linhas[0]
-    #Ignora a primeira célula vazia
-    nomes_municipios = [c.strip() for c in cabecalho[1:]]
+    nomes_municipios = []
+    for celula in cabecalho[1:]:
+        nomes_municipios.append(celula.strip())
 
-    adjacencias_string = []
-    #ignora a primeira linha (cabeçalho)
+    matriz_string = []
     for linha in linhas[1:]:
-        adjacencias_string.append([celula.strip() for celula in linha[1:]])
+        nova_linha = []
+        for celula in linha[1:]:
+            nova_linha.append(celula.strip())
+        matriz_string.append(nova_linha)
 
-    return nomes_municipios, adjacencias_string
+    return nomes_municipios, matriz_string
 
 def tratar_matriz(matriz_string):
     # 1. Passo: Calcular a soma de todos os valores inteiros existentes
@@ -43,20 +48,17 @@ def tratar_matriz(matriz_string):
 
     return matriz_convertida, soma
 
-# --- Exemplo de Execução ---
+#----- teste -----
 
-cidades, matriz_str = ler_csv("municipios.csv")
+def main():
+    cidades, matriz_string = ler_csv("./municipios.csv")
 
-# Chama a nova função passando a matriz retornada pela ler_csv
-matriz_str, valor_inf_usado = tratar_matriz(matriz_str)
+    matriz, valor_inf_usado = tratar_matriz(matriz_string)
 
-print(f"Valor atribuído para 'inf' (Soma total + 1): {valor_inf_usado}\n")
-
-print(cidades)
-
-print(matriz_str)
+    print(cidades)
+    print(matriz)
+    print(f"Valor atribuído para 'inf' (Soma total + 1): {valor_inf_usado}\n")
 
 
-#print("Matriz final de inteiros:")
-#for linha in matriz_str:
-#    print(linha)
+if __name__ == "__main__":
+    main()
