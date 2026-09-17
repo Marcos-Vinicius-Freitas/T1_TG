@@ -1,4 +1,9 @@
+"""
+Discentes: Higor Vinícius Magalhães Correia e Marcos Vinicius
+"""
+
 import csv
+import heapq
 
 def ler_csv(caminho_arquivo):
     with open(caminho_arquivo, newline="", encoding="utf-8") as arquivo:
@@ -23,18 +28,14 @@ def ler_csv(caminho_arquivo):
     return nomes_municipios, matriz_string
 
 def tratar_matriz(matriz_string):
-    # 1. Passo: Calcular a soma de todos os valores inteiros existentes
     soma = 0
     for linha in matriz_string:
         for celula in linha:
-            # Se for numérico (com suporte a números com sinal/espaços), soma
             if celula.strip().lower() != "inf":
                 soma += int(celula)
     
-    # Substitui os "inf", por soma
     soma = soma + 1
 
-    # 2. Passo: Criar a nova matriz convertida
     matriz_convertida = []
     for linha in matriz_string:
         nova_linha = []
