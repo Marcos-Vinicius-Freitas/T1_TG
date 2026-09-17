@@ -65,5 +65,41 @@ def escolher_cidade(nomes, mensagem):
 
         print("Entrada invalida, tente novamente.")
 
+def dijkstra(matriz, origem, destino):
+    n = len(matriz)
+    distancia = [float("inf")] * n
+    conhecidos = set()
+    anterior = {origem: None}
 
-    main()
+    distancia[origem] = 0
+    fila = [(0, origem)]
+
+    while fila:
+        distancia_atual, u = heapq.heappop(fila)
+
+        if u in conhecidos:
+            continue
+        else:
+            conhecidos.add(u)
+
+        if u == destino:
+            break
+        else:
+            for v in range(n):
+                peso = matriz[u][v]
+
+                if v != u and distancia[u] + peso < distancia[v]:
+                    distancia[v] = distancia[u] + peso
+                    anterior[v] = u
+                    heapq.heappush(fila, (distancia[v], v))
+
+    if distancia[destino] == float("inf"):
+        return None, []
+
+    caminho = []
+    atual = destino
+    while atual is not None:
+        caminho.append(atual)
+        atual = anterior[atual]
+    caminho.reverse()
+    return distancia[destino], caminho
