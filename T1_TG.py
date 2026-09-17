@@ -103,3 +103,24 @@ def dijkstra(matriz, origem, destino):
         atual = anterior[atual]
     caminho.reverse()
     return distancia[destino], caminho
+
+def main():
+    nomes, matriz_string = ler_csv("./municipios.csv")
+
+    matriz, valor_inf = tratar_matriz(matriz_string)
+
+    origem = escolher_cidade(nomes, "\nCidades disponiveis (origem):")
+    destino = escolher_cidade(nomes, "\nCidades disponiveis (destino):")
+
+    distancia, caminho = dijkstra(matriz, origem, destino)
+
+    if distancia is None:
+        print("Nao existe caminho entre a origem e o destino.")
+    
+    caminho_nomes = [nomes[i] for i in caminho]
+    print(f"Distancia total: {distancia}")
+    print("Percurso: " + " -> ".join(caminho_nomes))
+
+
+if __name__ == "__main__":
+    main()
