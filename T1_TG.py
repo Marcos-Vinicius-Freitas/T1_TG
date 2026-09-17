@@ -48,17 +48,22 @@ def tratar_matriz(matriz_string):
 
     return matriz_convertida, soma
 
-#----- teste -----
+def escolher_cidade(nomes, mensagem):
+    print(mensagem)
+    for i, nome in enumerate(nomes):
+        print(f"  [{i}] {nome}")
 
-def main():
-    cidades, matriz_string = ler_csv("./municipios.csv")
+    while True:
+        escolha = input("Digite o numero ou o nome da cidade: ").strip()
 
-    matriz, valor_inf_usado = tratar_matriz(matriz_string)
+        if escolha.isdigit() and 0 <= int(escolha) < len(nomes):
+            return int(escolha)
 
-    print(cidades)
-    print(matriz)
-    print(f"Valor atribuído para 'inf' (Soma total + 1): {valor_inf_usado}\n")
+        for i, nome in enumerate(nomes):
+            if nome.lower() == escolha.lower():
+                return i
+
+        print("Entrada invalida, tente novamente.")
 
 
-if __name__ == "__main__":
     main()
